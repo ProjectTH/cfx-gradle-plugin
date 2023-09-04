@@ -20,6 +20,7 @@ import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBrowserDsl
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
+import javax.inject.Inject
 
 /**
  * DSL wrapper to configure Kotlin/JS target for Cfx Node.js environment.
@@ -28,7 +29,7 @@ import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
  *
  * @see KotlinJsTargetDsl
  */
-open class CfxNodeJsTargetDsl(delegate: KotlinJsIrTarget) : CfxKotlinJsTargetWrapper(delegate) {
+open class CfxNodeJsTargetDsl @Inject constructor(delegate: KotlinJsIrTarget) : CfxKotlinJsTargetWrapper(delegate) {
     @Deprecated(
         UNSUPPORTED_BROWSER_TARGET_MESSAGE,
         ReplaceWith(""),
