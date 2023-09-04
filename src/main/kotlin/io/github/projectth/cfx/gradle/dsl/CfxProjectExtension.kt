@@ -18,6 +18,11 @@ package io.github.projectth.cfx.gradle.dsl
 
 import org.gradle.api.Action
 
+/**
+ * DSL extension to configure Cfx resource development environment for the entire project.
+ *
+ * You also can configure Cfx resource development environment via `kotlin` extension but it is not recommended.
+ */
 interface CfxProjectExtension {
     /**
      * The DSL to configure Kotlin/JS targets for Cfx resource.
@@ -27,7 +32,17 @@ interface CfxProjectExtension {
     val targets: CfxTargetContainer
 
     /**
+     * The DSL to configure Cfx target source sets.
+     */
+    val sourceSets: CfxSourceSetContainer
+
+    /**
      * Configures the Cfx targets with given [fn].
      */
     fun targets(fn: Action<CfxTargetContainer>) = fn.execute(targets)
+
+    /**
+     * Configures the Cfx target source sets with given [fn].
+     */
+    fun sourceSets(fn: Action<CfxSourceSetContainer>) = fn.execute(sourceSets)
 }
