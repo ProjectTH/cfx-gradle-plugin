@@ -30,32 +30,17 @@ import javax.inject.Inject
  * @see KotlinJsTargetDsl
  */
 open class CfxNodeJsTargetDsl @Inject constructor(delegate: KotlinJsIrTarget) : CfxKotlinJsTargetWrapper(delegate) {
-    @Deprecated(
-        UNSUPPORTED_BROWSER_TARGET_MESSAGE,
-        ReplaceWith(""),
-        DeprecationLevel.ERROR,
-    )
-    override fun browser() = throwUnsupportedBrowserTarget()
+    @Deprecated(UNSUPPORTED_BROWSER_TARGET_MESSAGE, ReplaceWith(""), DeprecationLevel.ERROR)
+    final override fun browser() = Unit
 
-    @Deprecated(
-        UNSUPPORTED_BROWSER_TARGET_MESSAGE,
-        ReplaceWith(""),
-        DeprecationLevel.ERROR,
-    )
-    override fun browser(fn: Action<KotlinJsBrowserDsl>) = throwUnsupportedBrowserTarget()
+    @Deprecated(UNSUPPORTED_BROWSER_TARGET_MESSAGE, ReplaceWith(""), DeprecationLevel.ERROR)
+    final override fun browser(fn: Action<KotlinJsBrowserDsl>) = Unit
 
-    @Deprecated(
-        UNSUPPORTED_BROWSER_TARGET_MESSAGE,
-        ReplaceWith(""),
-        DeprecationLevel.ERROR,
-    )
-    override fun browser(body: KotlinJsBrowserDsl.() -> Unit) = throwUnsupportedBrowserTarget()
-
-    private fun throwUnsupportedBrowserTarget(): Nothing =
-        throw UnsupportedOperationException(UNSUPPORTED_BROWSER_TARGET_MESSAGE)
+    @Deprecated(UNSUPPORTED_BROWSER_TARGET_MESSAGE, ReplaceWith(""), DeprecationLevel.ERROR)
+    final override fun browser(body: KotlinJsBrowserDsl.() -> Unit) = Unit
 
     private companion object {
-        private const val UNSUPPORTED_BROWSER_TARGET_MESSAGE =
+        const val UNSUPPORTED_BROWSER_TARGET_MESSAGE =
             "Kotlin/JS browser target is not supported for CfxNodeJsTargetDsl"
     }
 }

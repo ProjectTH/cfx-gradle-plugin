@@ -30,32 +30,17 @@ import javax.inject.Inject
  * @see KotlinJsTargetDsl
  */
 open class CfxBrowserTargetDsl @Inject constructor(delegate: KotlinJsIrTarget) : CfxKotlinJsTargetWrapper(delegate) {
-    @Deprecated(
-        UNSUPPORTED_NODE_JS_TARGET_MESSAGE,
-        ReplaceWith(""),
-        DeprecationLevel.ERROR,
-    )
-    override fun nodejs() = throwUnsupportedNodeJsTarget()
+    @Deprecated(UNSUPPORTED_NODE_JS_TARGET_MESSAGE, ReplaceWith(""), DeprecationLevel.ERROR)
+    override fun nodejs() = Unit
 
-    @Deprecated(
-        UNSUPPORTED_NODE_JS_TARGET_MESSAGE,
-        ReplaceWith(""),
-        DeprecationLevel.ERROR,
-    )
-    override fun nodejs(fn: Action<KotlinJsNodeDsl>) = throwUnsupportedNodeJsTarget()
+    @Deprecated(UNSUPPORTED_NODE_JS_TARGET_MESSAGE, ReplaceWith(""), DeprecationLevel.ERROR)
+    override fun nodejs(fn: Action<KotlinJsNodeDsl>) = Unit
 
-    @Deprecated(
-        UNSUPPORTED_NODE_JS_TARGET_MESSAGE,
-        ReplaceWith(""),
-        DeprecationLevel.ERROR,
-    )
-    override fun nodejs(body: KotlinJsNodeDsl.() -> Unit) = throwUnsupportedNodeJsTarget()
-
-    private fun throwUnsupportedNodeJsTarget(): Nothing =
-        throw UnsupportedOperationException(UNSUPPORTED_NODE_JS_TARGET_MESSAGE)
+    @Deprecated(UNSUPPORTED_NODE_JS_TARGET_MESSAGE, ReplaceWith(""), DeprecationLevel.ERROR)
+    override fun nodejs(body: KotlinJsNodeDsl.() -> Unit) = Unit
 
     private companion object {
-        private const val UNSUPPORTED_NODE_JS_TARGET_MESSAGE =
+        const val UNSUPPORTED_NODE_JS_TARGET_MESSAGE =
             "Kotlin/JS Node.js target is not supported for CfxBrowserTargetDsl"
     }
 }
