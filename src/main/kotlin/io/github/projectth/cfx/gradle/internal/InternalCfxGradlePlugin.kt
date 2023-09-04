@@ -16,9 +16,12 @@
 
 package io.github.projectth.cfx.gradle.internal
 
+import io.github.projectth.cfx.gradle.dsl.CfxProjectExtension
+import io.github.projectth.cfx.gradle.internal.dsl.InternalCfxProjectExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.create
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
 abstract class InternalCfxGradlePlugin : Plugin<Project> {
@@ -26,5 +29,7 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
         setProperty("kotlin.js.ir.output.granularity", "whole-program")
 
         plugins.apply(KotlinMultiplatformPluginWrapper::class)
+
+        extensions.create(CfxProjectExtension::class, "cfx", InternalCfxProjectExtension::class)
     }
 }
