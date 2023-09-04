@@ -24,7 +24,6 @@ import org.gradle.api.Project
 import org.gradle.api.attributes.Attribute
 import org.gradle.kotlin.dsl.newInstance
 import org.gradle.kotlin.dsl.provideDelegate
-import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JsModuleKind
 import org.jetbrains.kotlin.gradle.dsl.KotlinJsOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -99,9 +98,11 @@ internal open class InternalCfxTargetContainer @Inject constructor(
         compilations.all {
             kotlinOptions.configureCommonJsOptions(sourceMap)
 
-            binaries.withType(JsIrBinary::class).forEach {
-                it.linkTask.configure {
-                    kotlinOptions.configureCommonJsOptions(it.mode == KotlinJsBinaryMode.DEVELOPMENT || sourceMap)
+            binaries.whenObjectAdded {
+                if (this !is JsIrBinary) return@whenObjectAdded
+
+                linkTask.configure {
+                    kotlinOptions.configureCommonJsOptions(this@whenObjectAdded.mode == KotlinJsBinaryMode.DEVELOPMENT || sourceMap)
                 }
             }
         }
