@@ -23,10 +23,11 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.create
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+import org.jetbrains.kotlin.gradle.plugin.extraProperties
 
 abstract class InternalCfxGradlePlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = with(project) {
-        setProperty("kotlin.js.ir.output.granularity", "whole-program")
+        extraProperties["kotlin.js.ir.output.granularity"] = "whole-program"
 
         plugins.apply(KotlinMultiplatformPluginWrapper::class)
 
