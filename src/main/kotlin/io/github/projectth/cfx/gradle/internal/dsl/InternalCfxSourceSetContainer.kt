@@ -17,12 +17,15 @@
 package io.github.projectth.cfx.gradle.internal.dsl
 
 import io.github.projectth.cfx.gradle.dsl.CfxSourceSetContainer
-import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.Project
 import org.gradle.kotlin.dsl.get
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import javax.inject.Inject
 
-internal open class InternalCfxSourceSetContainer(sourceSets: NamedDomainObjectContainer<KotlinSourceSet>) :
-    CfxSourceSetContainer {
+internal open class InternalCfxSourceSetContainer @Inject constructor(project: Project) : CfxSourceSetContainer {
+    private val sourceSets = project.kotlinExtension.sourceSets
+
     override val sharedMain: KotlinSourceSet by lazy { sourceSets[SHARED_MAIN_NAME] }
     override val sharedTest: KotlinSourceSet by lazy { sourceSets[SHARED_TEST_NAME] }
 

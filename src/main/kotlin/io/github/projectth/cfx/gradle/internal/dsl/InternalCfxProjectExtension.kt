@@ -17,23 +17,11 @@
 package io.github.projectth.cfx.gradle.internal.dsl
 
 import io.github.projectth.cfx.gradle.dsl.CfxProjectExtension
-import io.github.projectth.cfx.gradle.dsl.CfxSourceSetContainer
-import io.github.projectth.cfx.gradle.dsl.CfxTargetContainer
-import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.kotlin.dsl.newInstance
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import javax.inject.Inject
 
-internal abstract class InternalCfxProjectExtension @Inject constructor(
-    project: Project, objects: ObjectFactory,
-) : CfxProjectExtension {
-    private val kotlinExtension = project.kotlinExtension as KotlinMultiplatformExtension
-
-    override val targets: CfxTargetContainer
-        get() = TODO("Not yet implemented")
-
-    override val sourceSets: CfxSourceSetContainer =
-        objects.newInstance<InternalCfxSourceSetContainer>(kotlinExtension.sourceSets)
+internal abstract class InternalCfxProjectExtension @Inject constructor(objects: ObjectFactory) : CfxProjectExtension {
+    override val targets = objects.newInstance<InternalCfxTargetContainer>()
+    override val sourceSets = objects.newInstance<InternalCfxSourceSetContainer>()
 }
