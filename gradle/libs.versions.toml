@@ -1,0 +1,7 @@
+[versions]
+kotlin = "1.9.10"
+kotlinWrappers = "1.0.0-pre.622"
+pluginPublish = "1.2.1"
+
+[plugins]
+gradle-pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
