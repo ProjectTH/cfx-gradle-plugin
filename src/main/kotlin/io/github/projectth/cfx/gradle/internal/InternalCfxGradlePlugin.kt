@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package io.github.projectth.cfx.gradle.plugins
+package io.github.projectth.cfx.gradle.internal
 
-import io.github.projectth.cfx.gradle.internal.InternalCfxGradlePlugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
+import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 
-abstract class CfxGradlePlugin : Plugin<Project> {
-    override fun apply(project: Project) {
-        project.plugins.apply(InternalCfxGradlePlugin::class)
+abstract class InternalCfxGradlePlugin : Plugin<Project> {
+    override fun apply(project: Project): Unit = with(project) {
+        plugins.apply(KotlinMultiplatformPluginWrapper::class)
     }
 }
