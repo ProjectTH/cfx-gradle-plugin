@@ -70,22 +70,20 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
             group = CFX_GROUP
             description = "Generates a complete Cfx resource that can be used in a FxServer. (${mode.name.lowercase()})"
 
-            doFirst {
-                getMainTargetLibraryPrepareTasks(mode).forEach {
-                    from(it) {
-                        exclude("package.json")
-                        into(MAIN_DIRECTORY_NAME)
-                    }
+            getMainTargetLibraryPrepareTasks(mode).forEach {
+                from(it) {
+                    exclude("package.json")
+                    into(MAIN_DIRECTORY_NAME)
                 }
-
-                getUiTargetWebpackTask(mode)?.let {
-                    from(it) {
-                        into(UI_DIRECTORY_NAME)
-                    }
-                }
-
-                into(distsDirectory)
             }
+
+            getUiTargetWebpackTask(mode)?.let {
+                from(it) {
+                    into(UI_DIRECTORY_NAME)
+                }
+            }
+
+            into(distsDirectory)
         }
     }
 
@@ -97,10 +95,10 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
 
     private val Project.mainTargets
         get() = kotlinExtension.targets.filterIsInstance<KotlinJsIrTarget>()
-            .filter { it.targetName in MAIN_TARGET_NAMES }
+            .filter { it.name in MAIN_TARGET_NAMES }
 
     private val Project.uiTarget
-        get() = kotlinExtension.targets.filterIsInstance<KotlinJsIrTarget>().find { it.targetName == UI_TARGET }
+        get() = kotlinExtension.targets.filterIsInstance<KotlinJsIrTarget>().find { it.name == UI_TARGET }
 
     private val KotlinJsBinaryMode.pascalName: String
         get() = name.lowercase().uppercaseFirstChar()
