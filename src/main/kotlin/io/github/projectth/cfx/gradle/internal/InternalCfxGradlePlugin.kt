@@ -49,7 +49,18 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
 
     private fun Project.configureCfxResourceDistributionTasks() {
         registerCfxResourceDistributionTask(KotlinJsBinaryMode.DEVELOPMENT)
-        registerCfxResourceDistributionTask(KotlinJsBinaryMode.PRODUCTION)
+        registerCfxResourceDistributionTask(KotlinJsBinaryMode.PRODUCTION).also { configureCfxResourceDistZipTask(it) }
+    }
+
+    private fun Project.configureCfxResourceDistZipTask(distTask: TaskProvider<Copy>) {
+        val zipTask = tasks.register<Zip>(CFX_RESOURCE_DIST_ZIP_TASK_NAME) {
+            group = CFX_GROUP
+            description = "Creates a zip containing all Cfx resource production distributions."
+            archiveBaseName.set(project.name)
+
+            from(distTask)
+        }
+        project.tasks.named(BasePlugin.ASSEMBLE_TASK_NAME).configure { dependsOn(zipTask) }
     }
 
     private fun Project.registerCfxResourceDistributionTask(mode: KotlinJsBinaryMode): TaskProvider<Copy> {
