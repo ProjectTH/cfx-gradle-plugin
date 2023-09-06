@@ -32,8 +32,8 @@ import org.gradle.kotlin.dsl.support.uppercaseFirstChar
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
 import org.jetbrains.kotlin.gradle.plugin.extraProperties
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.distsDirectory
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
+import org.jetbrains.kotlin.gradle.targets.js.dsl.Distribution
 import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsBinaryMode
 import org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrTarget
 
@@ -64,7 +64,9 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
     }
 
     private fun Project.registerCfxResourceDistributionTask(mode: KotlinJsBinaryMode): TaskProvider<Copy> {
-        val taskName = "$CFX_RESOURCE${mode.pascalName}Distribution"
+        val modeName = mode.pascalName
+        val taskName = "$CFX_RESOURCE${modeName}Distribution"
+        val distDirectory = layout.buildDirectory.dir("${Distribution.DIST}/$CFX_RESOURCE/$modeName")
 
         return tasks.register<Copy>(taskName) {
             group = CFX_GROUP
@@ -72,7 +74,6 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
 
             getMainTargetLibraryPrepareTasks(mode).forEach {
                 from(it) {
-                    exclude("package.json")
                     into(MAIN_DIRECTORY_NAME)
                 }
             }
@@ -83,7 +84,8 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
                 }
             }
 
-            into(distsDirectory)
+            into(distDirectory)
+            exclude("package.json")
         }
     }
 
@@ -94,8 +96,7 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
         uiTarget?.let { project.tasks.named("${it.moduleName}Browser${mode.pascalName}Webpack") }
 
     private val Project.mainTargets
-        get() = kotlinExtension.targets.filterIsInstance<KotlinJsIrTarget>()
-            .filter { it.name in MAIN_TARGET_NAMES }
+        get() = kotlinExtension.targets.filterIsInstance<KotlinJsIrTarget>().filter { it.name in MAIN_TARGET_NAMES }
 
     private val Project.uiTarget
         get() = kotlinExtension.targets.filterIsInstance<KotlinJsIrTarget>().find { it.name == UI_TARGET }
