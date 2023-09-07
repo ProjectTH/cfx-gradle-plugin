@@ -59,6 +59,8 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
             archiveBaseName.set(project.name)
 
             from(distTask)
+
+            into(archiveBaseName)
         }
         project.tasks.named(BasePlugin.ASSEMBLE_TASK_NAME).configure { dependsOn(zipTask) }
     }
