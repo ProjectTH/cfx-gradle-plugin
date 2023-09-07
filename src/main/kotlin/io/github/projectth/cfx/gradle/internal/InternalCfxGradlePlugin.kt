@@ -66,7 +66,7 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
     private fun Project.registerCfxResourceDistributionTask(mode: KotlinJsBinaryMode): TaskProvider<Copy> {
         val modeName = mode.pascalName
         val taskName = "$CFX_RESOURCE${modeName}Distribution"
-        val distDirectory = layout.buildDirectory.dir("${Distribution.DIST}/$CFX_RESOURCE/$modeName")
+        val distDirectory = layout.buildDirectory.dir("${Distribution.DIST}/$CFX_RESOURCE/${modeName.lowercase()}")
 
         return tasks.register<Copy>(taskName) {
             group = CFX_GROUP
