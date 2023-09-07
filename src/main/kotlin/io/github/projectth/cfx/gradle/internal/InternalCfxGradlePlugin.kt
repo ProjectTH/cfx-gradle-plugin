@@ -86,6 +86,7 @@ abstract class InternalCfxGradlePlugin : Plugin<Project> {
 
             into(distDirectory)
             exclude("package.json")
+            exclude("webpack.config.js")
         }
     }
 
